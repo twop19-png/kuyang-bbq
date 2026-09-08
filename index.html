@@ -426,30 +426,22 @@ window.addEventListener(
 
  var fd = new FormData(form);
  
- fetch(WEB_APP_URL, {
- method: 'POST',
- body: fd,
- mode: 'no-cors'
- });
-
- setTimeout(function() {
- document.getElementById(
- 'mainFormSection'
- ).style.display = 'none';
- document.getElementById(
- 'successCard'
- ).style.display = 'block';
- window.scrollTo({
- top: 0, 
- behavior: 'smooth'
- });
- }, 1500);
- }
- );
- }
- calculateLiveTotal();
- }
-);
-</script>
-</body>
-</html>
+fetch(WEB_APP_URL, {
+    method: 'POST',
+    body: fd,
+    mode: 'no-cors'
+})
+.then(function() {
+    // This code block runs ONLY when Google Sheets successfully receives and locks in the data rows!
+    document.getElementById('mainFormSection').style.display = 'none';
+    document.getElementById('successCard').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+})
+.catch(function(err) {
+    console.error('Network Error:', err);
+    alert('Spreadsheet connection failed. Please ensure your script web app permissions are set to Anyone!');
+    if (b) {
+        b.disabled = false;
+        b.innerText = "🚀 Submit Reservation Order";
+    }
+});
