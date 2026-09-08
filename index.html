@@ -211,10 +211,10 @@
  <select name="Fulfillment" 
  id="fulfillmentOpt" 
  required>
- <option value="Room (+10 NT)">
+ <option value="Room Delivery (+10 NT)">
  🏢 Room Delivery (+10 NT)
  </option>
- <option value="Pickup (Free)">
+ <option value="Parking Pickup (Free)">
  🅿️ Parking Pickup (Free)
  </option>
  </select>
@@ -264,7 +264,7 @@
  </div>
  
  <div class="menu-item">
- <span>Atay Baboy (30 NT)</span>
+ <span>Atay ng Baboy (30 NT)</span>
  <input type="number" 
  name="Quantity_Atay" 
  id="qty_atay" 
@@ -273,7 +273,7 @@
  </div>
  
  <div class="menu-item">
- <span>Tenga Baboy (30 NT)</span>
+ <span>Tenga ng Baboy (30 NT)</span>
  <input type="number" 
  name="Quantity_Tenga" 
  id="qty_tenga" 
@@ -429,12 +429,16 @@ window.addEventListener(
  }
 
  var fd = new FormData(form);
+ 
+ // Fire data stream directly to spreadsheet
  fetch(WEB_APP_URL, {
  method: 'POST',
  body: fd,
  mode: 'no-cors'
- })
- .then(function() {
+ });
+
+ // Immediately trigger success screen panel
+ setTimeout(function() {
  document.getElementById(
  'mainFormSection'
  ).style.display = 'none';
@@ -445,14 +449,7 @@ window.addEventListener(
  top: 0, 
  behavior: 'smooth'
  });
- })
- .catch(function(err) {
- alert('Error connection.');
- if (b) {
- b.disabled = false;
- b.innerText = "Submit";
- }
- });
+ }, 400);
  }
  );
  }
