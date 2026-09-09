@@ -445,3 +445,86 @@ fetch(WEB_APP_URL, {
         b.innerText = "🚀 Submit Reservation Order";
     }
 });
+  <script>
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx9VjKF3I-jFw18TZ5H2f9Arn6fwgao9NR5gybBnd5pLjhwwXYt3WWwE3_yEtvXPYJY/exec';
+
+  const PRICES = {
+    pork: 50,
+    atay: 30,
+    tenga: 30,
+    hotdog: 30
+  };
+
+  function calculateTotal() {
+    const pork = parseInt(document.querySelector('[name="Quantity_Pork"]')?.value || 0);
+    const atay = parseInt(document.querySelector('[name="Quantity_Atay"]')?.value || 0);
+    const tenga = parseInt(document.querySelector('[name="Quantity_Tenga"]')?.value || 0);
+    const hotdog = parseInt(document.querySelector('[name="Quantity_Hotdog"]')?.value || 0);
+
+    const subtotal = (pork * PRICES.pork) + (atay * PRICES.atay) + (tenga * PRICES.tenga) + (hotdog * PRICES.hotdog);
+
+    const fulfillment = document.querySelector('[name="Fulfillment"]')?.value || '';
+    const fee = fulfillment.includes('Room Delivery') ? 10 : 0;
+    const total = subtotal + fee;
+
+    // Update UI text elements if present
+    const subtotalEl = document.getElementById('subtotal_val');
+    const feeEl = document.getElementById('fee_val');
+    const totalEl = document.getElementById('total_val');
+
+    if (subtotalEl) subtotalEl.innerText = subtotal;
+    if (feeEl) feeEl.innerText = fee;
+    if (totalEl) totalEl.innerText = total;
+
+    return total;
+  }
+
+  // Auto-calculate total on change
+  document.querySelectorAll('input, select').forEach(element => {
+    element.addEventListener('input', calculateTotal);
+    element.addEventListener('change', calculateTotal);
+  });
+
+  // Intercept form submission and send to Google Sheets
+  const form = document.querySelector('form');
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const totalAmount = calculateTotal();
+
+      const payload = {
+        Name: document.querySelector('[name="Name"]')?.value || '',
+        Fulfillment: document.querySelector('[name="Fulfillment"]')?.value || '',
+        Room: document.querySelector('[name="Room"]')?.value || '',
+        Contact: document.querySelector('[name="Contact"]')?.value || '',
+        Time: document.querySelector('[name="Time"]')?.value || '',
+        Quantity_Pork: document.querySelector('[name="Quantity_Pork"]')?.value || 0,
+        Quantity_Atay: document.querySelector('[name="Quantity_Atay"]')?.value || 0,
+        Quantity_Tenga: document.querySelector('[name="Quantity_Tenga"]')?.value || 0,
+        Quantity_Hotdog: document.querySelector('[name="Quantity_Hotdog"]')?.value || 0,
+        Notes: document.querySelector('[name="Notes"]')?.value || '',
+        Total: totalAmount
+      };
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+      .then(() => {
+        alert('Order submitted successfully!');
+        form.reset();
+        calculateTotal();
+      })
+      .catch(error => {
+        alert('Error sending order.');
+        console.error('Submission error:', error);
+      });
+    });
+  }
+
+  // Initial calculation on page load
+  calculateTotal();
+</script>
