@@ -79,6 +79,12 @@
       font-weight: bold;
       font-size: 0.9rem;
     }
+    .help-text {
+      font-size: 0.8rem;
+      color: #666;
+      margin-bottom: 6px;
+      display: block;
+    }
     input, select, textarea {
       width: 100%;
       padding: 12px;
@@ -205,7 +211,8 @@
 
         <div class="form-group">
           <label>Preferred Sunday Delivery/Pickup Time</label>
-          <input type="text" name="Time" id="cTime" required placeholder="e.g. ASAP (pagkaluto)">
+          <span class="help-text">💡 Suggested times: 3:00 PM, 4:30 PM, 6:00 PM (or ASAP)</span>
+          <input type="text" name="Time" id="cTime" required placeholder="e.g. 3:00 PM or ASAP">
         </div>
 
         <div class="form-group">
@@ -254,7 +261,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyjUgPpE6wPqSAKEuzYhxGDJPToTfCBYxX3cetYKYXGfihOSn4nyvvxf0aKjZXqZFID/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx9VjKF3I-jFw18TZ5H2f9Arn6fwgao9NR5gybBnd5pLjhwwXYt3WWwE3_yEtvXPYJY/exec';
 
     const PRICES = {
       pork: 50,
@@ -275,7 +282,6 @@
       const fee = fulfillmentOpt.includes('Room Delivery') ? 10 : 0;
       const total = subtotal + fee;
 
-      // Handle room input visibility
       const roomGroup = document.getElementById('roomGroup');
       const cRoom = document.getElementById('cRoom');
       if (fulfillmentOpt.includes('Room Delivery')) {
@@ -289,7 +295,6 @@
         }
       }
 
-      // Update total display elements
       const subtotalEl = document.getElementById('billSubtotal');
       const feeEl = document.getElementById('billFee');
       const totalEl = document.getElementById('billTotal');
@@ -299,8 +304,7 @@
       if (feeEl) feeEl.innerText = fee + ' NT';
       if (totalEl) totalEl.innerText = total + ' NT';
 
-      // Require selecting at least one stick before enabling submit button
-      if (submitBtn) {
+      if (submitBtn && !submitBtn.dataset.submitting) {
         if (subtotal === 0) {
           submitBtn.disabled = true;
           submitBtn.innerText = '🍢 Please select at least 1 item';
@@ -313,23 +317,24 @@
       return total;
     }
 
-    // Recalculate live on quantity change or option change
     document.querySelectorAll('.item-qty-input, select').forEach(element => {
       element.addEventListener('input', calculateTotal);
       element.addEventListener('change', calculateTotal);
     });
 
-    // Handle order submission to Google Apps Script
     const form = document.getElementById('bbqForm');
     if (form) {
       form.addEventListener('submit', function(e) {
         e.preventDefault();
 
         const submitBtn = document.getElementById('submitButton');
-        if (submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.innerText = 'Sending to kitchen...';
-        }
+        
+        // Prevent double submissions
+        if (submitBtn.disabled) return;
+
+        submitBtn.disabled = true;
+        submitBtn.dataset.submitting = "true";
+        submitBtn.innerText = '⏳ Sending to kitchen... Please wait';
 
         const totalAmount = calculateTotal();
 
@@ -361,15 +366,13 @@
         .catch(error => {
           alert('Error sending order. Please try again.');
           console.error('Submission error:', error);
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerText = '🚀 Submit Reservation Order';
-          }
+          submitBtn.disabled = false;
+          delete submitBtn.dataset.submitting;
+          submitBtn.innerText = '🚀 Submit Reservation Order';
         });
       });
     }
 
-    // Run calculation once on initial page load
     calculateTotal();
   </script>
 </body>
