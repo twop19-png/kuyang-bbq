@@ -237,7 +237,8 @@
 
         <div class="form-group">
           <label>Special Instructions / Notes (Optional)</label>
-          <textarea name="Notes" id="cNotes" rows="2" placeholder="e.g. No sauce..."></textarea>
+          <span class="help-text">💡 Suggestions: Sweet sauce, Vinegar only, Spicy, No sauce</span>
+          <textarea name="Notes" id="cNotes" rows="2" placeholder="e.g. Sweet sauce, Vinegar only..."></textarea>
         </div>
 
         <div class="summary-box">
@@ -269,6 +270,8 @@
       tenga: 30,
       hotdog: 30
     };
+
+    let isSubmitting = false;
 
     function calculateTotal() {
       const pork = parseInt(document.getElementById('qty_pork')?.value || 0);
@@ -304,7 +307,7 @@
       if (feeEl) feeEl.innerText = fee + ' NT';
       if (totalEl) totalEl.innerText = total + ' NT';
 
-      if (submitBtn && !submitBtn.dataset.submitting) {
+      if (submitBtn && !isSubmitting) {
         if (subtotal === 0) {
           submitBtn.disabled = true;
           submitBtn.innerText = '🍢 Please select at least 1 item';
@@ -327,13 +330,11 @@
       form.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        const submitBtn = document.getElementById('submitButton');
-        
-        // Prevent double submissions
-        if (submitBtn.disabled) return;
+        if (isSubmitting) return;
 
+        const submitBtn = document.getElementById('submitButton');
+        isSubmitting = true;
         submitBtn.disabled = true;
-        submitBtn.dataset.submitting = "true";
         submitBtn.innerText = '⏳ Sending to kitchen... Please wait';
 
         const totalAmount = calculateTotal();
@@ -366,8 +367,8 @@
         .catch(error => {
           alert('Error sending order. Please try again.');
           console.error('Submission error:', error);
+          isSubmitting = false;
           submitBtn.disabled = false;
-          delete submitBtn.dataset.submitting;
           submitBtn.innerText = '🚀 Submit Reservation Order';
         });
       });
