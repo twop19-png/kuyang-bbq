@@ -1,530 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" 
- content="width=device-width">
-<title>Kuyang-Bbq</title>
-<style>
- :root { 
- --primary: #FF4500; 
- --dark: #222; 
- --light: #f9f9f9; 
- --gray: #ddd; 
- }
- * { 
- box-sizing: border-box; 
- margin: 0; 
- padding: 0; 
- font-family: sans-serif; 
- }
- body { 
- background: var(--light); 
- color: var(--dark); 
- padding-bottom: 40px; 
- }
- header { 
- background: linear-gradient(
- 135deg, #111, #2c1a14, #4a1505
- ); 
- color: white; 
- text-align: center; 
- padding: 35px 15px; 
- border-bottom: 4px solid 
- var(--primary); 
- }
- header h1 { 
- font-size: 2.2rem; 
- color: #FFA500; 
- }
- .tag { 
- background: rgba(0,0,0,0.5); 
- border: 1px solid 
- rgba(255,255,255,0.2); 
- padding: 5px 10px; 
- border-radius: 15px; 
- font-size: 0.8rem; 
- margin: 3px; 
- display: inline-block; 
- }
- .container { 
- max-width: 600px; 
- margin: 15px auto; 
- padding: 0 15px; 
- }
- .section { 
- background: white; 
- padding: 20px; 
- border-radius: 10px; 
- margin-bottom: 15px; 
- box-shadow: 0 2px 5px 
- rgba(0,0,0,0.05); 
- }
- h2 { 
- border-bottom: 2px solid 
- var(--primary); 
- padding-bottom: 5px; 
- margin-bottom: 15px; 
- font-size: 1.1rem; 
- }
- .menu-item { 
- display: flex; 
- align-items: center; 
- justify-content: 
- space-between; 
- padding: 12px 0; 
- border-bottom: 1px solid #eee; 
- }
- .menu-item:last-child { 
- border-bottom: none; 
- }
- .form-group { 
- margin-bottom: 15px; 
- }
- label { 
- display: block; 
- margin-bottom: 6px; 
- font-weight: bold; 
- font-size: 0.9rem; 
- }
- input, select, textarea { 
- width: 100%; 
- padding: 12px; 
- border: 1px solid var(--gray); 
- border-radius: 6px; 
- font-size: 1rem; 
- }
- .item-qty-input { 
- width: 80px; 
- text-align: center; 
- padding: 8px; 
- border: 1px solid var(--gray); 
- border-radius: 5px; 
- font-size: 1rem; 
- font-weight: bold; 
- }
- .summary-box { 
- background: #fff8f5; 
- border: 2px dashed 
- var(--primary); 
- padding: 18px; 
- border-radius: 8px; 
- margin: 20px 0; 
- }
- .summary-row { 
- display: flex; 
- justify-content: 
- space-between; 
- margin-bottom: 6px; 
- font-size: 1rem; 
- color: #555; 
- }
- .total-row { 
- font-weight: 900; 
- border-top: 2px solid 
- var(--primary); 
- padding-top: 10px; 
- margin-top: 8px; 
- color: var(--primary); 
- font-size: 1.6rem; 
- }
- .btn-submit { 
- background: #FF4500; 
- color: white; 
- border: none; 
- width: 100%; 
- padding: 16px; 
- border-radius: 6px; 
- font-size: 1.1rem; 
- font-weight: bold; 
- cursor: pointer; 
- margin-top: 15px; 
- }
- .btn-submit:disabled { 
- background: #999; 
- cursor: not-allowed; 
- }
- #successCard { 
- display: none; 
- text-align: center; 
- padding: 40px 20px; 
- }
- #successCard h2 { 
- border: none; 
- font-size: 2.2rem; 
- color: #4CAF50; 
- margin-bottom: 15px; 
- }
- #successCard p { 
- font-size: 1.2rem; 
- line-height: 1.6; 
- margin-bottom: 25px; 
- }
- .success-icon { 
- font-size: 5rem; 
- margin-bottom: 10px; 
- display: block; 
- }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kuyang-Bbq</title>
+  <style>
+    :root {
+      --primary: #FF4500;
+      --dark: #222;
+      --light: #f9f9f9;
+      --gray: #ddd;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+    body {
+      background: var(--light);
+      color: var(--dark);
+      padding-bottom: 40px;
+    }
+    header {
+      background: linear-gradient(135deg, #111, #2c1a14, #4a1505);
+      color: white;
+      text-align: center;
+      padding: 35px 15px;
+      border-bottom: 4px solid var(--primary);
+    }
+    header h1 {
+      font-size: 2.2rem;
+      color: #FFA500;
+    }
+    .tag {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      margin: 3px;
+      display: inline-block;
+    }
+    .container {
+      max-width: 600px;
+      margin: 15px auto;
+      padding: 0 15px;
+    }
+    .section {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    h2 {
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 5px;
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+    }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .menu-item:last-child {
+      border-bottom: none;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--gray);
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    .item-qty-input {
+      width: 80px;
+      text-align: center;
+      padding: 8px;
+      border: 1px solid var(--gray);
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+    .summary-box {
+      background: #fff8f5;
+      border: 2px dashed var(--primary);
+      padding: 18px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 1rem;
+      color: #555;
+    }
+    .total-row {
+      font-weight: 900;
+      border-top: 2px solid var(--primary);
+      padding-top: 10px;
+      margin-top: 8px;
+      color: var(--primary);
+      font-size: 1.6rem;
+    }
+    .btn-submit {
+      background: #FF4500;
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 16px;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+    .btn-submit:disabled {
+      background: #999;
+      cursor: not-allowed;
+    }
+    #successCard {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    #successCard h2 {
+      border: none;
+      font-size: 2.2rem;
+      color: #4CAF50;
+      margin-bottom: 15px;
+    }
+    #successCard p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+    .success-icon {
+      font-size: 5rem;
+      margin-bottom: 10px;
+      display: block;
+    }
+  </style>
 </head>
 <body>
-<header>
- <h1>Kuyang-Bbq</h1>
- <p>Order now to reserve!</p>
- <div>
- <span class="tag">🕒 Sunday Only</span>
- <span class="tag">🍢 Menu Variety</span>
- <span class="tag">🛵 Delivery</span>
- </div>
-</header>
-<div class="container">
+  <header>
+    <h1>Kuyang-Bbq</h1>
+    <p>Order now to reserve!</p>
+    <div>
+      <span class="tag">🕒 Sunday Only</span>
+      <span class="tag">🍢 Menu Variety</span>
+      <span class="tag">🛵 Delivery</span>
+    </div>
+  </header>
 
- <!-- SUCCESS CARD -->
- <div class="section" id="successCard">
- <span class="success-icon">🚀</span>
- <h2>Order Confirmed!</h2>
- <p>Your reservation has been sent directly to the kitchen spreadsheet.</p>
- <button class="btn-submit" onclick="location.reload()">
- Order Another / Refresh
- </button>
- </div>
+  <div class="container">
+    <!-- SUCCESS CARD -->
+    <div class="section" id="successCard">
+      <span class="success-icon">🚀</span>
+      <h2>Order Confirmed!</h2>
+      <p>Your reservation has been sent directly to the kitchen spreadsheet.</p>
+      <button class="btn-submit" onclick="location.reload()"> Order Another / Refresh </button>
+    </div>
 
- <!-- FORM INTERFACE -->
- <div class="section" id="mainFormSection">
- <h2>📋 Place Your Sunday Order</h2>
- <form id="bbqForm">
+    <!-- FORM INTERFACE -->
+    <div class="section" id="mainFormSection">
+      <h2>📋 Place Your Sunday Order</h2>
+      <form id="bbqForm">
+        <div class="form-group">
+          <label>Your Name / Nickname</label>
+          <input type="text" name="Name" id="cName" required placeholder="e.g. Pokwang">
+        </div>
 
- <div class="form-group">
- <label>Your Name / Nickname</label>
- <input type="text" 
- name="Name" 
- id="cName" 
- required 
- placeholder="e.g. Pokwang">
- </div>
+        <div class="form-group">
+          <label>Fulfillment Option</label>
+          <select name="Fulfillment" id="fulfillmentOpt" required>
+            <option value="Room Delivery (+10 NT)">🏢 Room Delivery (+10 NT)</option>
+            <option value="Parking Pickup (Free)">🅿️ Parking Pickup (Free)</option>
+          </select>
+        </div>
 
- <div class="form-group">
- <label>Fulfillment Option</label>
- <select name="Fulfillment" 
- id="fulfillmentOpt" 
- required>
- <option value="Room Delivery (+10 NT)">
- 🏢 Room Delivery (+10 NT)
- </option>
- <option value="Parking Pickup (Free)">
- 🅿️ Parking Pickup (Free)
- </option>
- </select>
- </div>
+        <div class="form-group" id="roomGroup">
+          <label id="roomLabel">Room Number <span style="color:red">*</span></label>
+          <input type="text" name="Room" id="cRoom" required placeholder="e.g. Room 305">
+        </div>
 
- <div class="form-group" id="roomGroup">
- <label id="roomLabel">
- Room Number 
- <span style="color:red">*</span>
- </label>
- <input type="text" 
- name="Room" 
- id="cRoom" 
- required 
- placeholder="e.g. Room 305">
- </div>
+        <div class="form-group">
+          <label>Phone / Contact Info</label>
+          <input type="text" name="Contact" id="cContact" required placeholder="LINE ID or Mobile Number">
+        </div>
 
- <div class="form-group">
- <label>Phone / Contact Info</label>
- <input type="text" 
- name="Contact" 
- id="cContact" 
- required 
- placeholder="LINE ID or Mobile Number">
- </div>
+        <div class="form-group">
+          <label>Preferred Sunday Delivery/Pickup Time</label>
+          <input type="text" name="Time" id="cTime" required placeholder="e.g. ASAP (pagkaluto)">
+        </div>
 
- <div class="form-group">
- <label>Preferred Sunday Delivery/Pickup Time</label>
- <input type="text" 
- name="Time" 
- id="cTime" 
- required 
- placeholder="e.g. ASAP (pagkaluto)">
- </div>
+        <div class="form-group">
+          <label>🍢 Select Quantities (How many sticks?)</label>
+          <div class="menu-item">
+            <span>Pork BBQ Stick (50 NT)</span>
+            <input type="number" name="Quantity_Pork" id="qty_pork" class="item-qty-input" min="0" value="0">
+          </div>
+          <div class="menu-item">
+            <span>Atay ng Baboy (30 NT)</span>
+            <input type="number" name="Quantity_Atay" id="qty_atay" class="item-qty-input" min="0" value="0">
+          </div>
+          <div class="menu-item">
+            <span>Tenga ng Baboy (30 NT)</span>
+            <input type="number" name="Quantity_Tenga" id="qty_tenga" class="item-qty-input" min="0" value="0">
+          </div>
+          <div class="menu-item">
+            <span>Hotdog Stick (30 NT)</span>
+            <input type="number" name="Quantity_Hotdog" id="qty_hotdog" class="item-qty-input" min="0" value="0">
+          </div>
+        </div>
 
- <div class="form-group">
- <label>🍢 Select Quantities (How many sticks?)</label>
- 
- <div class="menu-item">
- <span>Pork BBQ Stick (50 NT)</span>
- <input type="number" 
- name="Quantity_Pork" 
- id="qty_pork" 
- class="item-qty-input" 
- min="0" value="0">
- </div>
- 
- <div class="menu-item">
- <span>Atay ng Baboy (30 NT)</span>
- <input type="number" 
- name="Quantity_Atay" 
- id="qty_atay" 
- class="item-qty-input" 
- min="0" value="0">
- </div>
- 
- <div class="menu-item">
- <span>Tenga ng Baboy (30 NT)</span>
- <input type="number" 
- name="Quantity_Tenga" 
- id="qty_tenga" 
- class="item-qty-input" 
- min="0" value="0">
- </div>
- 
- <div class="menu-item">
- <span>Hotdog Stick (30 NT)</span>
- <input type="number" 
- name="Quantity_Hotdog" 
- id="qty_hotdog" 
- class="item-qty-input" 
- min="0" value="0">
- </div>
- </div>
+        <div class="form-group">
+          <label>Special Instructions / Notes (Optional)</label>
+          <textarea name="Notes" id="cNotes" rows="2" placeholder="e.g. No sauce..."></textarea>
+        </div>
 
- <div class="form-group">
- <label>Special Instructions / Notes (Optional)</label>
- <textarea name="Notes" 
- id="cNotes" 
- rows="2" 
- placeholder="e.g. No sauce..."></textarea>
- </div>
+        <div class="summary-box">
+          <div class="summary-row">
+            <span>Items Subtotal:</span>
+            <span id="billSubtotal">0 NT</span>
+          </div>
+          <div class="summary-row">
+            <span>Fulfillment Fee:</span>
+            <span id="billFee">10 NT</span>
+          </div>
+          <div class="summary-row total-row">
+            <span>Total Due:</span>
+            <span id="billTotal">10 NT</span>
+          </div>
+        </div>
 
- <div class="summary-box">
- <div class="summary-row">
- <span>Items Subtotal:</span>
- <span id="billSubtotal">0 NT</span>
- </div>
- <div class="summary-row">
- <span>Fulfillment Fee:</span>
- <span id="billFee">10 NT</span>
- </div>
- <div class="summary-row total-row">
- <span>Total Due:</span>
- <span id="billTotal">10 NT</span>
- </div>
- </div>
- <button type="submit" 
- class="btn-submit" 
- id="submitButton">
- 🚀 Submit Reservation Order
- </button>
- </form>
- </div>
-</div>
-<script>
-const URL_PART1 = "https://google.com";
-const URL_PART2 = "AKfycbw5UkKv8R6IOBq8CxKzMa3LZTnq5e24065Ehtn0xhu90Z86m79vd0nl-h3BKB5im0QM";
-const URL_PART3 = "/exec";
-const WEB_APP_URL = URL_PART1 + URL_PART2 + URL_PART3;
+        <button type="submit" class="btn-submit" id="submitButton">🚀 Submit Reservation Order</button>
+      </form>
+    </div>
+  </div>
 
-function getVal(id) {
- return parseInt(
- document.getElementById(id).value
- ) || 0;
-}
-
-function calculateLiveTotal() {
- var p = getVal('qty_pork');
- var a = getVal('qty_atay');
- var t = getVal('qty_tenga');
- var h = getVal('qty_hotdog');
- var sub = (p*50)+(a*30)+(t*30)+(h*30);
- 
- var f = document.getElementById(
- 'fulfillmentOpt'
- ).value;
- var fee = 0;
- var rg = document.getElementById(
- 'roomGroup'
- );
- var ri = document.getElementById(
- 'cRoom'
- );
-
- if (f.includes("Room Delivery")) {
- fee = 10;
- if (rg) rg.style.display = "block";
- if (ri) ri.required = true;
- } else {
- fee = 0;
- if (rg) rg.style.display = "none";
- if (ri) {
- ri.required = false;
- ri.value = "";
- }
- }
-
- var tot = sub + fee;
- document.getElementById(
- 'billSubtotal'
- ).innerText = sub + " NT";
- document.getElementById(
- 'billFee'
- ).innerText = fee + " NT";
- document.getElementById(
- 'billTotal'
- ).innerText = tot + " NT";
-
- var btn = document.getElementById(
- 'submitButton'
- );
- if (btn) {
- if (sub === 0) {
- btn.disabled = true;
- btn.innerText = "🍢 Please select at least 1 item";
- } else {
- btn.disabled = false;
- btn.innerText = "🚀 Submit Reservation Order";
- }
- }
-}
-
-window.addEventListener(
- 'DOMContentLoaded', 
- function() {
- var inputs = document
- .querySelectorAll(
- '.item-qty-input'
- );
- inputs.forEach(function(i) {
- i.addEventListener(
- 'input', 
- calculateLiveTotal
- );
- });
-
- var opt = document
- .getElementById(
- 'fulfillmentOpt'
- );
- if (opt) opt.addEventListener(
- 'change', 
- calculateLiveTotal
- );
-
- var form = document
- .getElementById('bbqForm');
- if (form) {
- form.addEventListener(
- 'submit', 
- function(e) {
- e.preventDefault();
- var b = document
- .getElementById(
- 'submitButton'
- );
- if (b) {
- b.disabled = true;
- b.innerText = "Sending to kitchen...";
- }
-
- var fd = new FormData(form);
- 
-fetch(WEB_APP_URL, {
-    method: 'POST',
-    body: fd,
-    mode: 'no-cors'
-})
-.then(function() {
-    // This code block runs ONLY when Google Sheets successfully receives and locks in the data rows!
-    document.getElementById('mainFormSection').style.display = 'none';
-    document.getElementById('successCard').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-})
-.catch(function(err) {
-    console.error('Network Error:', err);
-    alert('Spreadsheet connection failed. Please ensure your script web app permissions are set to Anyone!');
-    if (b) {
-        b.disabled = false;
-        b.innerText = "🚀 Submit Reservation Order";
-    }
-});
   <script>
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx9VjKF3I-jFw18TZ5H2f9Arn6fwgao9NR5gybBnd5pLjhwwXYt3WWwE3_yEtvXPYJY/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx9VjKF3I-jFw18TZ5H2f9Arn6fwgao9NR5gybBnd5pLjhwwXYt3WWwE3_yEtvXPYJY/exec';
 
-  const PRICES = {
-    pork: 50,
-    atay: 30,
-    tenga: 30,
-    hotdog: 30
-  };
+    const PRICES = {
+      pork: 50,
+      atay: 30,
+      tenga: 30,
+      hotdog: 30
+    };
 
-  function calculateTotal() {
-    const pork = parseInt(document.querySelector('[name="Quantity_Pork"]')?.value || 0);
-    const atay = parseInt(document.querySelector('[name="Quantity_Atay"]')?.value || 0);
-    const tenga = parseInt(document.querySelector('[name="Quantity_Tenga"]')?.value || 0);
-    const hotdog = parseInt(document.querySelector('[name="Quantity_Hotdog"]')?.value || 0);
+    function calculateTotal() {
+      const pork = parseInt(document.getElementById('qty_pork')?.value || 0);
+      const atay = parseInt(document.getElementById('qty_atay')?.value || 0);
+      const tenga = parseInt(document.getElementById('qty_tenga')?.value || 0);
+      const hotdog = parseInt(document.getElementById('qty_hotdog')?.value || 0);
 
-    const subtotal = (pork * PRICES.pork) + (atay * PRICES.atay) + (tenga * PRICES.tenga) + (hotdog * PRICES.hotdog);
+      const subtotal = (pork * PRICES.pork) + (atay * PRICES.atay) + (tenga * PRICES.tenga) + (hotdog * PRICES.hotdog);
 
-    const fulfillment = document.querySelector('[name="Fulfillment"]')?.value || '';
-    const fee = fulfillment.includes('Room Delivery') ? 10 : 0;
-    const total = subtotal + fee;
+      const fulfillmentOpt = document.getElementById('fulfillmentOpt')?.value || '';
+      const fee = fulfillmentOpt.includes('Room Delivery') ? 10 : 0;
+      const total = subtotal + fee;
 
-    // Update UI text elements if present
-    const subtotalEl = document.getElementById('subtotal_val');
-    const feeEl = document.getElementById('fee_val');
-    const totalEl = document.getElementById('total_val');
+      // Handle room input visibility
+      const roomGroup = document.getElementById('roomGroup');
+      const cRoom = document.getElementById('cRoom');
+      if (fulfillmentOpt.includes('Room Delivery')) {
+        if (roomGroup) roomGroup.style.display = 'block';
+        if (cRoom) cRoom.required = true;
+      } else {
+        if (roomGroup) roomGroup.style.display = 'none';
+        if (cRoom) {
+          cRoom.required = false;
+          cRoom.value = '';
+        }
+      }
 
-    if (subtotalEl) subtotalEl.innerText = subtotal;
-    if (feeEl) feeEl.innerText = fee;
-    if (totalEl) totalEl.innerText = total;
+      // Update total display elements
+      const subtotalEl = document.getElementById('billSubtotal');
+      const feeEl = document.getElementById('billFee');
+      const totalEl = document.getElementById('billTotal');
+      const submitBtn = document.getElementById('submitButton');
 
-    return total;
-  }
+      if (subtotalEl) subtotalEl.innerText = subtotal + ' NT';
+      if (feeEl) feeEl.innerText = fee + ' NT';
+      if (totalEl) totalEl.innerText = total + ' NT';
 
-  // Auto-calculate total on change
-  document.querySelectorAll('input, select').forEach(element => {
-    element.addEventListener('input', calculateTotal);
-    element.addEventListener('change', calculateTotal);
-  });
+      // Require selecting at least one stick before enabling submit button
+      if (submitBtn) {
+        if (subtotal === 0) {
+          submitBtn.disabled = true;
+          submitBtn.innerText = '🍢 Please select at least 1 item';
+        } else {
+          submitBtn.disabled = false;
+          submitBtn.innerText = '🚀 Submit Reservation Order';
+        }
+      }
 
-  // Intercept form submission and send to Google Sheets
-  const form = document.querySelector('form');
-  if (form) {
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
+      return total;
+    }
 
-      const totalAmount = calculateTotal();
-
-      const payload = {
-        Name: document.querySelector('[name="Name"]')?.value || '',
-        Fulfillment: document.querySelector('[name="Fulfillment"]')?.value || '',
-        Room: document.querySelector('[name="Room"]')?.value || '',
-        Contact: document.querySelector('[name="Contact"]')?.value || '',
-        Time: document.querySelector('[name="Time"]')?.value || '',
-        Quantity_Pork: document.querySelector('[name="Quantity_Pork"]')?.value || 0,
-        Quantity_Atay: document.querySelector('[name="Quantity_Atay"]')?.value || 0,
-        Quantity_Tenga: document.querySelector('[name="Quantity_Tenga"]')?.value || 0,
-        Quantity_Hotdog: document.querySelector('[name="Quantity_Hotdog"]')?.value || 0,
-        Notes: document.querySelector('[name="Notes"]')?.value || '',
-        Total: totalAmount
-      };
-
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      })
-      .then(() => {
-        alert('Order submitted successfully!');
-        form.reset();
-        calculateTotal();
-      })
-      .catch(error => {
-        alert('Error sending order.');
-        console.error('Submission error:', error);
-      });
+    // Recalculate live on quantity change or option change
+    document.querySelectorAll('.item-qty-input, select').forEach(element => {
+      element.addEventListener('input', calculateTotal);
+      element.addEventListener('change', calculateTotal);
     });
-  }
 
-  // Initial calculation on page load
-  calculateTotal();
-</script>
+    // Handle order submission to Google Apps Script
+    const form = document.getElementById('bbqForm');
+    if (form) {
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submitButton');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerText = 'Sending to kitchen...';
+        }
+
+        const totalAmount = calculateTotal();
+
+        const payload = {
+          Name: document.querySelector('[name="Name"]')?.value || '',
+          Fulfillment: document.querySelector('[name="Fulfillment"]')?.value || '',
+          Room: document.querySelector('[name="Room"]')?.value || '',
+          Contact: document.querySelector('[name="Contact"]')?.value || '',
+          Time: document.querySelector('[name="Time"]')?.value || '',
+          Quantity_Pork: document.getElementById('qty_pork')?.value || 0,
+          Quantity_Atay: document.getElementById('qty_atay')?.value || 0,
+          Quantity_Tenga: document.getElementById('qty_tenga')?.value || 0,
+          Quantity_Hotdog: document.getElementById('qty_hotdog')?.value || 0,
+          Notes: document.querySelector('[name="Notes"]')?.value || '',
+          Total: totalAmount
+        };
+
+        fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        })
+        .then(() => {
+          document.getElementById('mainFormSection').style.display = 'none';
+          document.getElementById('successCard').style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        })
+        .catch(error => {
+          alert('Error sending order. Please try again.');
+          console.error('Submission error:', error);
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerText = '🚀 Submit Reservation Order';
+          }
+        });
+      });
+    }
+
+    // Run calculation once on initial page load
+    calculateTotal();
+  </script>
+</body>
+</html>
